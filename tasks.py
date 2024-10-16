@@ -3,7 +3,6 @@ import psycopg2
 import redis
 from sklearn.metrics import accuracy_score
 
-# Konfiguracja PostgreSQL
 DATABASE = {
     'host': 'postgres',
     'database': 'mydatabase',
@@ -11,7 +10,6 @@ DATABASE = {
     'password': 'password'
 }
 
-# Konfiguracja Redis
 REDIS_HOST = 'redis'
 REDIS_PORT = 6379
 REDIS_DB = 0
@@ -35,10 +33,8 @@ def calculate_accuracy(model_id):
     if result:
         y_true, y_pred = result
 
-        # Obliczenie metryki accuracy
         acc = accuracy_score(y_true, y_pred)
 
-        # Zapisanie wyniku w Redis
         r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
         r.set(f'result_{model_id}', acc)
     else:
